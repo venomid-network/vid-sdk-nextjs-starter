@@ -1,0 +1,289 @@
+:root {
+  --darkGradient: radial-gradient(
+    farthest-corner at 60% 55%,
+    #1a1b19 10%,
+    #1f191f 45%,
+    #1f1b1f 60%,
+    #1e2421 90%
+  );
+  
+  --lightGradient: radial-gradient(
+    farthest-corner at 60% 55%,
+    #ebe3e0 10%,
+    #ece6ec 45%,
+    #e4e4e4 60%,
+    #eeeeee 90%
+  );
+
+  --lightLinearGradient: linear-gradient(
+    to right,
+    #e5dedc 10%,
+    #e7e1e7 45%,
+    #fff4ff 60%,
+    #dfe5e2 90%
+  );
+
+  --venomGradient: radial-gradient(
+    circle farthest-corner at 40% 30%,
+    #2f8359 0%,
+    #1e6441 100%
+  );
+
+  --vidGradient: linear-gradient(to right, #2bb673 10%, #10a9b6 90%);
+
+  --white: #f3f3f3;
+  --light: #f5f5f5;
+  --whiteAlpha: #f3f3f340;
+  --dark: #161618;
+  --darkAlpha: #16161850;
+  --dark0: #111111;
+  --dark1:rgb(32, 32, 33);
+  --dark2:rgb(50, 52, 54);
+  --gray: #9c9a95;
+  --lightGrey: #d5d5d5;
+  --red1: #c84949;
+  --venom00: #99f0c4;
+  --venom0: #2bb673;
+  --venom: #1d7c4e;
+  --venom1: #27aa6b;
+  --venom2: #239960;
+  --venom3: #228a58;
+  --bluevenom00: #4ff0ff;
+  --bluevenom0: #12c9da;
+  --bluevenom1: #10a9b6;
+  --bluevenom2: #0e94a0;
+  --bluevenom3: #0d828d;
+  --purplevenom0: #ff2fff;
+  --purplevenom1: #ff00ff;
+  --purplevenom2: #c900c9;
+  --purplevenom3: #990099;
+  --purple0: #7951e9;
+  --purple1: #6343bb;
+  --purple2: #503aa1;
+  --purple: #544ba2;
+  --purple3: #393087;
+  --purpleGradient: radial-gradient(circle farthest-corner at 40% 30%, #666fea 0%, #544ba2 100%);
+  --orange: #e9924b;
+  --orangeGradient: radial-gradient(circle farthest-corner at 40% 30%, #ff9946  0%, #ff5a0d 100%);
+  --yellow: #e9df4b;
+  --yellowGradient: radial-gradient(circle farthest-corner at 40% 30%, #f5ec6a  0%, #c9be2d 100%);
+  --red: #e94b4b;
+  --redGradient: radial-gradient(circle farthest-corner at 40% 30%, #e94b4b  0%, #af4343 100%);
+  --blue0: #00c8f0;
+  --blue1: #00b8dd;
+  --blue: #00b8dd;
+  --blue2: #0098b6;
+  --blue3: #00849e;
+  --blueGradient: radial-gradient(circle farthest-corner at 40% 30%, #4cdbff  0%, #00aaf8 100%);
+  --bg1Gradient: url("/bgs/bg1.jpg") center ;
+  --bg1: #272727;
+  --bg2Gradient: url("/bgs/bg2.jpg") center;
+  --bg2: #e6e6e6;
+  --bg3Gradient: url("/bgs/bg3.jpg") center;
+  --bg3: #272727;
+  --bg4Gradient: url("/bgs/bg4.svg") center;
+  --bg4: #272727;
+  --bg5Gradient: url("/bgs/bg5.svg") center;
+  --bg5: #272727;
+  --bg6Gradient: url("/bgs/bg6.svg") center;
+  --bg6: #272727;
+  --bg7Gradient: url("/bgs/bg7.svg") center;
+  --bg7: #2bb673;
+
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+body, div {
+  scrollbar-color: #19191b #383838 !important;
+  scrollbar-width: thin !important;
+}
+
+iframe {
+  border-radius: 16px;
+}
+
+body::-webkit-scrollbar, div::-webkit-scrollbar {
+  width: 12px;
+}
+
+body::-webkit-scrollbar-track, div::-webkit-scrollbar-track {
+  background-color: #19191b;
+}
+
+body::-webkit-scrollbar-thumb , div::-webkit-scrollbar-thumb {
+  background-color: #383838;
+  border-radius: 100px;
+}
+
+.swagger-ui .opblock.opblock-get {
+  background: rgb(213 221 229);
+  border-color: #61affe;
+}
+
+.swagger-ui {
+  color: var(--dark);
+  background-color: var(--white);
+  border-radius: 12px;
+  font-family: 'Poppins',sans-serif !important /*! normalize.css v7.0.0 | MIT License | github.com/necolas/normalize.css */;
+}
+
+
+.tour , .introjs-tooltipReferenceLayer *{
+  color: #161618;
+  font-family: 'Poppins', sans-serif !important;
+  font-weight: 500;
+  font-size: large;
+}
+
+/*
+
+Atom One Dark by Daniel Gamage
+Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
+
+base:    #282c34
+mono-1:  #abb2bf
+mono-2:  #818896
+mono-3:  #5c6370
+hue-1:   #56b6c2
+hue-2:   #61aeee
+hue-3:   #c678dd
+hue-4:   #98c379
+hue-5:   #e06c75
+hue-5-2: #be5046
+hue-6:   #d19a66
+hue-6-2: #e6c07b
+
+*/
+@media only screen and (max-width: 900px) {
+  .hljs {
+    font-size: small;
+    padding: 8px;
+  }
+}
+
+.hljs {
+  display: block;
+  width: 100%;
+  border-radius: 12px;
+  overflow: auto;
+  padding: 0px 24px;
+  color: #abb2bf;
+  background: #282c34;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #c678dd;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e06c75;
+}
+
+.hljs-literal {
+  color: #56b6c2;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #98c379;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #e6c07b;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #d19a66;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #61aeee;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+.hljs-link {
+  text-decoration: underline;
+}
+
+.marvel-device .screen {
+  overflow: auto !important;
+}
+
+.marvel-device .screen::-webkit-scrollbar , .noscroll::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.noscroll {
+  scrollbar-width: 'none' !important;
+}
+
+
+.marvel-device .screen::-webkit-scrollbar-track {
+  background-color: #19191b;
+}
+
+.marvel-device .screen::-webkit-scrollbar-thumb {
+  background-color: #383838;
+  border-radius: 100px;
+}
+
+em-emoji-picker {
+  width: 100%;
+  min-width: 100%;
+  height: 480px;
+  resize: horizontal;
+  
+}
+
+
+
+@keyframes animatedgradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
