@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { BaseNftJson } from './nft';
 import { truncAddress } from './stringUtils';
-import { MAX_NAME_LENGTH, MIN_NAME_LENGTH } from './constants';
 //import crypto from 'crypto';
 
 const sleep = async (ms: number) => new Promise((r) => setTimeout(r, ms));
@@ -27,7 +26,7 @@ const withHttps = (url: string) =>
 
 function isValidUsername(name: string) {
   var length = Buffer.byteLength(name);
-  if (length <= MIN_NAME_LENGTH || length > MAX_NAME_LENGTH) {
+  if (length <= 5 || length > 63) {
     return false;
   }
   var nameAsBytes = Buffer.from(name);
@@ -47,7 +46,7 @@ function isValidUsername(name: string) {
 
 function invalidUsernameMessage(name: string) {
   var length = Buffer.byteLength(name);
-  if (length <= MIN_NAME_LENGTH || length > MAX_NAME_LENGTH) {
+  if (length <= 5 || length > 63) {
     return 'Domain name should be more than 5 characters on testnet. all names will be available on Mainnet!';
   }
   var nameAsBytes = Buffer.from(name);

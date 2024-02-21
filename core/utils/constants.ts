@@ -1,9 +1,6 @@
-import { BgColorItem, LinkType, BgImageItem } from 'types';
+import { BgColorItem, LinkType, BgImageItem } from '../../types';
 
-export const MINT_OPEN = true;
-export const MINT_TOTAL_SUPPLY:number = 10000;
-export const MINT_DATE = 'Feb 03, 2024 18:00 UTC';
-export const MINT_MESSAGE = 'Final Phase of venom testnet minting will start on';
+
 export const SITE_URL = 'https://venomid.network/';
 export const SITE_URL_SHORT = 'venomid.network';
 export const VID_IMAGE_API = 'https://img.venomid.network/api/';
@@ -11,50 +8,10 @@ export const SITE_TITLE = 'Venom ID';
 export const SITE_DESCRIPTION = 'Your entire virtual identity in the blockchain in one simple link';
 export const SITE_FULL_DESCRIPTION =
   'With VenomID, you can assign human-readable names to your blockchain and non-blockchain resources like Venom, BTC and ETH addresses, Links and more';
-export const NFT_IMAGE_URL = 'https://ipfs.io/ipfs/QmUvfedgHDXdiMsq5nfLPGLQrR4QAYXHzR5SETBZQ6RGyd';
 export const SITE_MANAGE_URL = 'https://venomid.tools/';
 export const SITE_PROFILE_URL = 'https://venomid.link/';
-export const ZEALY_URL = 'https://zealy.io/c/venomid/';
-export const AVATAR_API_URL = 'https://venomid.link/api/avatar?name=';
-export const VENOMSCAN_NFT = 'https://testnet.venomscan.com/accounts/';
-export const VENTORY_NFT = 'https://testnet.ventory.gg/nft/';
-export const VENOMART_NFT = 'https://testnet.venomart.io/nft/';
-export const BTCSCAN_ADDRESS = 'https://blockchair.com/bitcoin/';
-export const ETHERSCAN_ADDRESS = 'https://etherscan.io/address/';
-export const CONTRACT_ADDRESS =
-  '0:5ecadfe4afcf90452bc448b5dabffeca63939bfce866f248d9493f57e748aff3';
-export const CONTRACT_ADDRESS_V1 =
-  '0:0f158efd58c06ff2f84726425de63d3deb4037d2c621ccd552cec61d6b6ee5bd';
-export const CONTRACT_ADDRESS_V2 =
-  '0:2787ba200fd3e45c1a4854768f69310fe4e9566383761f27936aff61ad79c8ab';
 
 export const ROOT_CONTRACT_ADDRESS = '0:5475e9e7b9d178f4c35cd1136e83a100ca95e28b38c5c52d0689771372ba43ec';
-export const MAX_NAME_LENGTH = 63;
-export const MIN_NAME_LENGTH = 5;
-export const MIN_FEE = 660000000;
-export const EARLY_ADOPTERS_CONTRACT_ADDRESS = '0:9e0ea0f0fe6229aee6580a96fd9c62aabf6f2430830877c5b1ad700680ac0486';
-export const WRAPPED_VENOM_ADDRESS = '0:2c3a2ff6443af741ce653ae4ef2c85c2d52a9df84944bbe14d702c3131da3f14';
-export const TOKEN_WALLET_ADDRESS = '0:2b5bbfe1d86e4df852a2ff33512495c7038c585f5c6c8c0a84f7af8997e2ff05';
-export enum CertificateStatus {
-  RESERVED,
-  NEW,
-  IN_ZERO_AUCTION,
-  COMMON,
-  EXPIRING,
-  GRACE,
-  EXPIRED
-}
-
-export const CertificateStatusNames =[
-  'RESERVED',
-  'NEW',
-  'IN AUCTION',
-  'COMMON',
-  'EXPIRING',
-  'GRACE',
-  'EXPIRED',
-  'AVAILABLE'
-]
 
 export const VENTORY_NFT_V1_ADDRESS = '0:7df675a3c099ed318d36c54e62282b1185f78fb05c21d19292699d6e200b0bb6';
 export const VENTORY_NFT_V2_ADDRESS = '0:b248dc8f494e6e8f4ff355e9032cdfaf0108889b19b06e3f11861faa0780a06c';

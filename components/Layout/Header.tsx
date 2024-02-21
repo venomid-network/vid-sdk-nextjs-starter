@@ -24,20 +24,18 @@ import {
   Link,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
-import { localeAtom, colorModeAtom } from 'core/atoms';
-import { ConnectButton } from 'components/venomConnect';
 import { useAtom } from 'jotai';
 import { RiMoonFill, RiSunFill, RiMenu2Fill, RiCloseFill } from 'react-icons/ri';
-import { Locale } from 'translations';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
-import { useTranslate } from 'core/lib/hooks/use-translate';
-import { Logo } from 'components/logos';
+import { colorModeAtom } from '../../core/atoms';
+import { useTranslate } from '../../core/lib/hooks/use-translate';
+import { Logo } from '../logos';
+import { ConnectButton } from '../venomConnect';
 
 export default function Header() {
   const [colorM, setColorM] = useAtom(colorModeAtom);
   const { colorMode, toggleColorMode } = useColorMode();
-  const [locale, setLocale] = useAtom(localeAtom);
   const [notMobile] = useMediaQuery('(min-width: 992px)');
   const [small] = useMediaQuery('(min-width: 375px)');
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();

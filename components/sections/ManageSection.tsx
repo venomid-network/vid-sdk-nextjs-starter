@@ -2,12 +2,10 @@ import React, { useEffect, useState } from 'react';
 import {
   BaseNftJson,
   getAddressesFromIndex,
-  getNft,
   getNftByIndex,
   saltCode,
-} from 'core/utils/nft';
+} from '../../core/utils/nft';
 import NextLink from 'next/link';
-import Avatar from 'components/Profile/Avatar';
 import {
   Button,
   Container,
@@ -25,24 +23,17 @@ import {
   IconButton,
   useToast,
 } from '@chakra-ui/react';
-import { useTranslate } from 'core/lib/hooks/use-translate';
-import Logo from 'components/logos/Logo';
-import { sleep } from 'core/utils';
-import { sql } from '@vercel/postgres';
-import { ConnectButton } from 'components/venomConnect';
 import { useConnect, useVenomProvider } from 'venom-react-hooks';
 import {
   primaryNameAtom,
-  venomContractAtom,
-  venomContractAddressAtom,
   ipfsGatewayAtom,
   networkAtom,
-} from 'core/atoms';
+} from '../../core/atoms';
 import { useAtom, useAtomValue } from 'jotai';
 import {
   ROOT_CONTRACT_ADDRESS,
   SITE_PROFILE_URL,
-} from 'core/utils/constants';
+} from '../../core/utils/constants';
 import {
   RiRestartLine,
 } from 'react-icons/ri';
@@ -51,6 +42,10 @@ import axios from 'axios';
 import { useAddress } from '@thirdweb-dev/react';
 import { createWeb3Name } from '@web3-name-sdk/core';
 import { useRouter } from 'next/router';
+import { sleep } from '../../core/utils';
+import Avatar from '../Profile/Avatar';
+import { ConnectButton } from '../venomConnect';
+import { useTranslate } from '../../core/lib/hooks/use-translate';
 
 function ManageSection() {
   const { provider } = useVenomProvider();
@@ -64,8 +59,6 @@ function ManageSection() {
   const [nftjsons, setNftJsons] = useState<BaseNftJson[] | undefined>(undefined);
   const network = useAtomValue(networkAtom);
   const [_network, _setNetwork] = useState(network);
-  const venomContract = useAtomValue(venomContractAtom);
-  const venomContractAddress = useAtomValue(venomContractAddressAtom);
   const { t } = useTranslate();
   const ipfsGateway = useAtomValue(ipfsGatewayAtom);
   const [primaryName, setPrimaryName] = useAtom(primaryNameAtom);

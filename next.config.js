@@ -55,11 +55,11 @@ const nextConfig = {
     ],
   },
   transpilePackages: ['@web3-name-sdk/core'],
-  // webpack(config) {
-  //   config.output.webassemblyModuleFilename = './eversdk.wasm';
-  //   config.experiments = { asyncWebAssembly: true, layers: true };
-  //   return config;
-  // },
+  webpack(config) {
+    //config.output.webassemblyModuleFilename = './eversdk.wasm';
+    config.experiments = { asyncWebAssembly: true, layers: true };
+    return config;
+  },
   
 };
 

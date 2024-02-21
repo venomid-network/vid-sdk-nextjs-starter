@@ -4,24 +4,15 @@ import { initialAuthState } from './initialState';
 import { VenomConnect } from 'venom-connect';
 import { ProviderRpcClient } from 'everscale-inpage-provider';
 import {
-  CONTRACT_ADDRESS,
   IPFS_URLS,
-  LINK_VALIDATION_REGEX,
-  MINT_OPEN,
   SOCIALS,
-  SOUNDCLOUD_LINK_REGEX,
-  TWITTER_STATUS_REGEX,
-  YOUTUBE_LINK_VALIDATION_REGEX,
-} from 'core/utils/constants';
+} from '../utils/constants';
 import {
   PrimaryName,
   CustomLink,
   ObjectItem,
-  LinkType,
-  BgColorItem,
-  BgImageItem,
   Styles,
-} from 'types';
+} from '../../types';
 
 export const venomConnectAtom = atom<VenomConnect | undefined>(undefined);
 export const accountAtom = atom<any>({});
@@ -42,7 +33,6 @@ export const avatarAtom = atom('');
 export const editingAvatarAtom = atom('');
 export const editingAvatarFileAtom = atom<File | undefined >(undefined);
 export const editedAvatarAtom = atom(false);
-export const mintOpenAtom = atom(MINT_OPEN);
 export const avatarNftAtom = atom('');
 export const avatarShapeAtom = atom('round');
 export const nftsNetworkAtom = atom('venom testnet');
@@ -62,12 +52,8 @@ export const socialsAtom = atom(SOCIALS);
 export const socialsArrayAtom = atom<ObjectItem[]>([]);
 export const walletsArrayAtom = atom<ObjectItem[]>([]);
 export const linksArrayAtom = atom<CustomLink[]>([]);
-export const venomContractAddressAtom = atom(CONTRACT_ADDRESS);
 export const venomSProviderAtom = atom<ProviderRpcClient | undefined>(undefined);
 export const rootContractAtom = atom<any>(undefined);
-export const venomContractAtom = atom<any>(undefined);
-export const venomContractAtomV1 = atom<any>(undefined);
-export const venomContractAtomV2 = atom<any>(undefined);
 export const earlyAdopterContractAtom = atom<any>(undefined);
 export const nftContractAtom = atom<any>(undefined);
 export const isConnectedAtom = atom(false);

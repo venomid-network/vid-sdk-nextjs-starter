@@ -17,18 +17,18 @@ import {
   LinkOverlay,
   useClipboard,
 } from '@chakra-ui/react';
-import { LinkIcon, VenomFoundation, VenomScanIcon } from 'components/logos';
+import { LinkIcon, VenomFoundation, VenomScanIcon } from '../logos';
 import {
   FAUCET_URL,
   ROOT_CONTRACT_ADDRESS,
   SIGN_MESSAGE,
   SITE_URL,
-} from 'core/utils/constants';
-import { sleep, truncAddress, capFirstLetter, isValidSignHash } from 'core/utils';
+} from '../../core/utils/constants';
+import { sleep, truncAddress, capFirstLetter, isValidSignHash } from '../../core/utils';
 import { useConnect, useSignMessage, useVenomProvider } from 'venom-react-hooks';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { Address } from 'everscale-inpage-provider';
-import RootAbi from 'abi/Root.abi.json';
+import RootAbi from '../../abi/Root.abi.json';
 import {
   RiLogoutBoxRLine,
   RiFileCopyLine,
@@ -36,11 +36,8 @@ import {
   RiShuffleLine,
   RiRefund2Line,
 } from 'react-icons/ri';
-import LogoIcon from '../logos/LogoIcon';
 import {
   connectedAccountAtom,
-  earlyAdopterContractAtom,
-  ethAtom,
   ethPrimaryNameAtom,
   isConnectedAtom,
   networkAtom,
@@ -49,12 +46,7 @@ import {
   signDateAtom,
   signHashAtom,
   signMessageAtom,
-  signRequestAtom,
-  venomContractAddressAtom,
-  venomContractAtom,
-  venomContractAtomV1,
-  venomContractAtomV2,
-} from 'core/atoms';
+} from '../../core/atoms';
 import {
   ConnectWallet,
   useAddress,
@@ -64,7 +56,7 @@ import {
   useSwitchChain,
 } from '@thirdweb-dev/react';
 import { createWeb3Name } from '@web3-name-sdk/core';
-import { getAddressesFromIndex, getNftByIndex, saltCode } from 'core/utils/nft';
+import { getAddressesFromIndex, getNftByIndex, saltCode } from '../../core/utils/nft';
 export default function ConnectButton() {
   const [notMobile] = useMediaQuery('(min-width: 800px)');
   const { login, disconnect, isConnected, account } = useConnect();
@@ -103,16 +95,10 @@ export default function ConnectButton() {
   const [primaryLoaded, setPrimaryLoaded] = useState(false);
   const [ethPrimaryLoaded, setEthPrimaryLoaded] = useState(false);
   const [isSigning, setIsSigning] = useState(false);
-  const [signRequest, setSignRequest] = useAtom(signRequestAtom);
   const [signHash, setSignHash] = useAtom(signHashAtom);
   const [signDate, setSignDate] = useAtom(signDateAtom);
   const [connectedAccount, setConnectedAccount] = useAtom(connectedAccountAtom);
-  const venomContractAddress = useAtomValue(venomContractAddressAtom);
-  const setVenomContract = useSetAtom(venomContractAtom);
-  const setRootContract = useSetAtom(rootContractAtom);
-  const setVenomContractV1 = useSetAtom(venomContractAtomV1);
-  const setVenomContractV2 = useSetAtom(venomContractAtomV2);
-  const setEarlyAdopterContract = useSetAtom(earlyAdopterContractAtom);
+  const [rootContract,setRootContract] = useAtom(rootContractAtom);
   const [signMessage, setSignMessage] = useAtom(signMessageAtom);
   const { onCopy, hasCopied } = useClipboard(String(address));
   const { sign, status } = useSignMessage({
@@ -140,10 +126,13 @@ export default function ConnectButton() {
 
     try {
       const _rootContract = new provider.Contract(RootAbi, new Address(ROOT_CONTRACT_ADDRESS));
-      setRootContract(_rootContract);
-
+      
       if (!_rootContract?.methods) {
         return;
+      } else {
+        // @ts-ignore
+        try { setRootContract(_rootContract); } catch(e){ console.log('error setting root!?')}
+
       }
 
     const saltedCode = await saltCode(provider, String(account?.address), ROOT_CONTRACT_ADDRESS);

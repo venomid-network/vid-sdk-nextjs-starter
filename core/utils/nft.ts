@@ -1,8 +1,7 @@
 import { Address, ProviderRpcClient } from 'everscale-inpage-provider';
 // Of course you need to place a contract ABI somewhere
-import nftAbi from 'abi/Nft.abi.json';
-import indexAbi from 'abi/Index.abi.json';
-import { CONTRACT_ADDRESS } from './constants';
+import nftAbi from '../../abi/Nft.abi.json';
+import indexAbi from '../../abi/Index.abi.json';
 
 // TIP-4.2. standard (https://docs.venom.foundation/standards/TIP-4/2)
 export interface BaseNftJson {

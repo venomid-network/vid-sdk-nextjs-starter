@@ -2,11 +2,11 @@ import { type ReactElement } from 'react';
 import { ChakraProvider, extendTheme, type ThemeExtension } from '@chakra-ui/react';
 import { mode } from '@chakra-ui/theme-tools';
 import { useAtomValue } from 'jotai';
-import { fontAtom, localeAtom } from 'core/atoms';
-import { Direction, Locale } from 'translations';
 import '@fontsource/poppins';
 import { buttonTheme } from './Theme/Button';
 import { colors } from './Theme/Colors';
+import { localeAtom } from '../../core/atoms';
+import { Direction, Locale } from '../../translations';
 
 interface IThemeProvider {
   children: ReactElement;

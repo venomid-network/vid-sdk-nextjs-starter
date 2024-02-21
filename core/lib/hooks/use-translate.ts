@@ -1,6 +1,6 @@
 import { useAtom } from 'jotai';
-import { localeAtom } from 'core/atoms';
-import { terms } from 'translations';
+import { localeAtom } from '../../../core/atoms';
+import { terms } from '../../../translations';
 
 export const useTranslate = () => {
   const [locale, setLocale] = useAtom(localeAtom);

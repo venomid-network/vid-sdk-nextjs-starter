@@ -1,9 +1,9 @@
 import type { AppProps } from 'next/app';
-import ThemeProvider from 'components/Provider/ThemeProvider';
-import Layout from 'components/Layout';
-import { useDirectionSetter } from 'core/lib/hooks/use-directionSetter';
+import ThemeProvider from '../components/Provider/ThemeProvider';
+import Layout from '../components/Layout';
+import { useDirectionSetter } from '../core/lib/hooks/use-directionSetter';
 import { VenomConfig } from 'venom-react-hooks';
-import { initVenomConnect } from 'components/venomConnect/configure';
+import { initVenomConnect } from '../components/venomConnect/configure';
 import {
   ThirdwebProvider,
   metamaskWallet,
@@ -15,7 +15,7 @@ import {
   rainbowWallet,
 } from '@thirdweb-dev/react';
 import '../styles/globals.css';
-import { Ethereum, Polygon, Arbitrum, Binance, Goerli, ZksyncEra } from '@thirdweb-dev/chains';
+import { Binance } from '@thirdweb-dev/chains';
 
 function MyApp({ Component, pageProps }: AppProps) {
   useDirectionSetter();

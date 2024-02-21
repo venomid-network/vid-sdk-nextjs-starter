@@ -1,15 +1,12 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
-import ClaimSection from 'components/sections/ClaimSection';
-import RoadmapSection from 'components/sections/RoadmapSection';
-import AboutSection from 'components/sections/AboutSection';
 import {
   SITE_DESCRIPTION,
   SITE_URL,
   SITE_TITLE,
-} from 'core/utils/constants';
-import ManageSection from 'components/sections/ManageSection';
-import NSSection from 'components/sections/NSSection';
+} from '../core/utils/constants';
+import ManageSection from '../components/sections/ManageSection';
+import NSSection from '../components/sections/NSSection';
 
 const Home: NextPage = () => {
   const origin = typeof window !== 'undefined' && window.location.origin ? window.location.origin : SITE_URL;

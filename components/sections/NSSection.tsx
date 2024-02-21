@@ -10,16 +10,13 @@ import {
   SimpleGrid,
   Link,
   InputGroup,
-  InputLeftAddon,
   Input,
-  InputRightElement,
   InputRightAddon,
   useColorModeValue,
   Flex,
   Center,
 } from '@chakra-ui/react';
-import { useTranslate } from 'core/lib/hooks/use-translate';
-import { MINT_OPEN, ZERO_ADDRESS } from 'core/utils/constants';
+import { useTranslate } from '../../core/lib/hooks/use-translate';
 import {
   RiCodeSSlashLine,
   RiExternalLinkLine,
@@ -27,19 +24,15 @@ import {
   RiSendPlane2Line,
 } from 'react-icons/ri';
 import { useEffect, useState } from 'react';
-import { isValidVenomAddress } from 'core/utils';
-import { useAtomValue } from 'jotai';
+import { isValidVenomAddress } from '../../core//utils';
 import { useSendMessage, useVenomProvider, useConnect } from 'venom-react-hooks';
-import { rootContractAtom, venomContractAddressAtom } from 'core/atoms';
 import { Address } from 'everscale-inpage-provider';
-import DomainAbi from 'abi/Domain.abi.json';
-import getVid from 'core/utils/getVid';
-import resolveAddress from 'core/utils/resolveAddress';
 import { lookupAddress } from 'vid-sdk';
+import { getAddressesFromIndex, getNftByIndex, saltCode } from '../../core/utils/nft';
+import { ROOT_CONTRACT_ADDRESS } from '../../core/utils/constants';
 
 export default function NSSection() {
   const { t } = useTranslate();
-  const [notMobile] = useMediaQuery('(min-width: 769px)');
   const { colorMode } = useColorMode();
   const [address, setAddress] = useState('');
   const [searchedName, setSearchedName] = useState('');
@@ -48,8 +41,6 @@ export default function NSSection() {
   const [sent, setSent] = useState(false);
   const { provider } = useVenomProvider();
   const { account } = useConnect();
-  const venomContractAddress = useAtomValue(venomContractAddressAtom);
-  const rootContract = useAtomValue(rootContractAtom);
 
   const { run, status } = useSendMessage({
     from: new Address(String(account?.address)),
@@ -76,34 +67,45 @@ export default function NSSection() {
     setAddress('');
   }
 
-  // const getName = async () => {
-  //   setIsLoadig(true);
-  //   //if(MINT_OPEN){
-  //     if (!provider || !provider.isInitialized) return;
-  //     const _venomContract = new provider.Contract(VenomAbi, new Address(venomContractAddress));
-  //     // @ts-ignore: Unreachable code error
-  //     const { value0 }: any = await _venomContract?.methods.getPrimaryName({ _owner: new Address(String(address)) })
-  //       .call();
-
-  //     if (value0?.name !== '') {
-  //       setLoaded(true);
-  //       setSearchedName(value0.name + '.vid');
-  //     } else {
-  //     await getVid(String(address)).then((res)=> {
-  //       if(res.status === 200){
-  //         setLoaded(true);
-  //         setSearchedName(res.data+ '.vid');
-  //       } else {
-  //         setSearchedName('');
-  //         setLoaded(false);
-  //       }
-  //     }).catch((e)=> {
-  //       setSearchedName('');
-  //       setLoaded(false);
-  //     })
-  //   }
-  //   setIsLoadig(false);
-  // };
+  const getName = async () => {
+    setIsLoadig(true);
+    //if(MINT_OPEN){
+      if (!provider || !provider.isInitialized) return;
+      const saltedCode = await saltCode(provider, String(address), ROOT_CONTRACT_ADDRESS);
+      // Hash it
+      const codeHash = await provider.getBocHash(String(saltedCode));
+      if (!codeHash) {
+        //setIsLoading(false);
+        return;
+      }
+      // Fetch all Indexes by hash
+      const indexesAddresses = await getAddressesFromIndex(codeHash, provider,5);
+      if (!indexesAddresses || !indexesAddresses.length) {
+        //setIsLoading(false);
+        return;
+      }
+      // Fetch all nfts
+      let primary = false;
+      indexesAddresses.map(async (indexAddress) => {
+        try {
+          if(!primary){
+            let _nftJson = await getNftByIndex(provider, indexAddress);
+            if(_nftJson.target === address && !primary){
+              primary = true ;
+              setLoaded(true);
+              setSearchedName(_nftJson.name);
+              return
+            };
+          }
+        } catch (e: any) {
+          setSearchedName('');
+          setLoaded(false);
+        }
+      });
+        
+    
+    setIsLoadig(false);
+  };
 
   const getAddress = async () => {
     setIsLoadig(true);
@@ -143,14 +145,13 @@ export default function NSSection() {
     if (!loaded) {
       if (address.includes('.vid')) {
         getAddress();
-      } 
-      // else if (isValidVenomAddress(address)) {
-      //   getName();
-      // } 
-      else {
+      } else if (isValidVenomAddress(address)) {
+        getName();
+      } else {
         setSearchedName('');
       }
     } else {
+      
       if (!String(address).includes('.vid') && !isValidVenomAddress(address)) {
         setSearchedName('');
         setLoaded(false);

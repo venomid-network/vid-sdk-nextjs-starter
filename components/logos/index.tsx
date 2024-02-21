@@ -98,7 +98,7 @@ import Tron from './Tron';
 import Ylide from './Ylide';
 import * as Icons from 'react-icons/ri';
 import { Avatar, Icon } from '@chakra-ui/react';
-import { IPFS_IMAGE_URI } from 'core/utils/constants';
+import { IPFS_IMAGE_URI } from '../../core/utils/constants';
 
 interface LinkIconProps {
   type: string;

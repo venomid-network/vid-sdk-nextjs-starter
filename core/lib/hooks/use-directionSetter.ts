@@ -1,7 +1,7 @@
 import { useAtomValue } from 'jotai';
-import { getDirection } from 'components/Provider/ThemeProvider';
+import { getDirection } from '../../../components/Provider/ThemeProvider';
 import { useEffect } from 'react';
-import { localeAtom } from 'core/atoms';
+import { localeAtom } from '../../../core/atoms';
 
 export const useDirectionSetter = () => {
   const locale = useAtomValue(localeAtom);

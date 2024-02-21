@@ -1,4 +1,4 @@
-import terms from 'translations/terms';
+import terms from './terms';
 
 enum Locale {
   En = 'en',
