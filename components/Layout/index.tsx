@@ -7,7 +7,7 @@ type Props = {
 };
 
 const Layout = ({ children }: Props) => {
-  const { pathname } = useRouter();
+  //const { pathname } = useRouter();
   return (
     <>
     
