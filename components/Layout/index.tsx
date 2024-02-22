@@ -12,9 +12,9 @@ const Layout = ({ children }: Props) => {
   return (
     <>
     
-     {!pathname.includes('nftAddress') && !pathname.includes('auth') && <Header />}
+     <Header />
       {children}
-     {!pathname.includes('nftAddress') && !pathname.includes('auth') && <Footer />}
+     <Footer />
 
       
     </>
