@@ -1,5 +1,4 @@
 import Header from './Header';
-import Foot from './Footer';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
