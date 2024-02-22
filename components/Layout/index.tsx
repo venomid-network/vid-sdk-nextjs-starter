@@ -1,5 +1,5 @@
 import Header from './Header';
-import Footer from './Footer';
+import Foot from './Footer';
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 
@@ -14,7 +14,7 @@ const Layout = ({ children }: Props) => {
     
      <Header />
       {children}
-     <Footer />
+     <Foot />
 
       
     </>
