@@ -41,15 +41,6 @@ export default function Header() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const { pathname } = useRouter();
   const { t } = useTranslate();
-  const home = pathname === '/' ? true : false;
-
-  useEffect(() => {
-    if (!pathname.includes('nftAddress')) {
-      if (colorMode !== colorM) {
-        toggleColorMode();
-      }
-    }
-  }, [colorM, colorMode]);
 
   return (
     <>

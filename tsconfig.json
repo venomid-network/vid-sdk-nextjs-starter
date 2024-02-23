@@ -13,9 +13,6 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "paths": {
-      "react": [ "./node_modules/@types/react" ]
-    },
     "incremental": true,
     "baseUrl": "."
   },
