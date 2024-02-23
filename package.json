@@ -1,6 +1,6 @@
 {
   "name": "vid-sdk-nextjs-starter",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -31,18 +31,18 @@
     "crypto-js": "^4.2.0",
     "dotenv": "^16.3.1",
     "ethers": "5.7.2",
-    "everscale-inpage-provider": "^0.3.61",
     "everscale-standalone-client": "^2.1.20",
-    "framer-motion": "^11.0.5",
+    "framer-motion": "^6",
     "jotai": "^1.6.3",
     "next": "13.0.0",
+    "next-auth": "^4.24.5",
     "prettier": "^2.8.8",
     "react": "18",
     "react-dom": "18",
-    "react-icons": "4.12.0",
+    "react-icons": "^5.0.1",
     "venom-connect": "1.0.24",
     "venom-react-hooks": "^0.1.5",
-    "vid-sdk": "0.0.72",
+    "vid-sdk": "0.0.73",
     "viem": "^1.21.1"
   },
   "devDependencies": {

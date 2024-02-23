@@ -1,7 +1,7 @@
 import { Address, ProviderRpcClient } from "everscale-inpage-provider";
 import { ROOT_CONTRACT_ADDRESS } from "./constants";
-import nftAbi from "../../abi/Nft.abi.json";
-import indexAbi from "../../abi/Index.abi.json";
+import nftAbi from "abi/Nft.abi.json";
+import indexAbi from "abi/Index.abi.json";
 
 export interface BaseNftJson {
   name?: string;
@@ -194,45 +194,37 @@ export async function lookupNames(
   provider: ProviderRpcClient,
   address: string,
   limit?: number
-) {
-  
-  if (!provider) return;
+): Promise<string[]> {
+  if (!provider) return [];
 
-  // @ts-ignore
   const saltedCode = await saltCode(
     provider,
     String(address),
     ROOT_CONTRACT_ADDRESS
   );
-  // Hash it
+
   const codeHash = await provider.getBocHash(String(saltedCode));
   if (!codeHash) {
-    //setIsLoading(false);
-    return;
+    return [];
   }
-  // Fetch all Indexes by hash
+
   const indexesAddresses = await getAddressesFromIndex(codeHash, provider, limit);
-  if (!indexesAddresses || !indexesAddresses.length) {
-    //setIsLoading(false);
-    return;
+  if (!indexesAddresses || indexesAddresses.length === 0) {
+    return [];
   }
-  // Fetch all nfts
+
   const nfts = await Promise.all(indexesAddresses.map(async (indexAddress) => {
     try {
-      //if (!primary) {
-        const _nftJson = await getNftByIndex(provider, indexAddress);
-        console.log(_nftJson.target)
-        console.log(address)
-        if (address === _nftJson.target) {
-          return String(_nftJson.name)
-        } else {
-          return null
-        }
-      //}
-    } catch (e: any) {
-      //return('');
+      const _nftJson = await getNftByIndex(provider, indexAddress);
+      if (address === _nftJson.target) {
+        return String(_nftJson.name);
+      } else {
+        return '';
+      }
+    } catch (e) {
+      return '';
     }
   }));
+
   return nfts.filter((nft) => nft !== null && nft !== undefined && nft.length > 3);
-  
 }
