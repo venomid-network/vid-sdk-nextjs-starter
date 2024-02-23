@@ -212,7 +212,11 @@ export default function ConnectButton() {
 
   const switchAccount = async () => {
     await logout();
+    try {
     login();
+    } catch(e){
+      console.log('catched ',e);
+    }
   };
 
   const logout = async () => {
@@ -322,7 +326,11 @@ export default function ConnectButton() {
                 <Button
                   variant="outline"
                   onClick={() => {
+                    try {
                     login();
+                    } catch(e){
+                      console.log('catched',e);
+                    }
                   }}
                   minH={'60px'}
                   w="280px">
