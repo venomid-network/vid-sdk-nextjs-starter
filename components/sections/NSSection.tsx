@@ -32,8 +32,10 @@ import { useEffect, useState } from 'react';
 import { isValidVenomAddress } from '../../core/utils';
 import { useSendMessage, useVenomProvider, useConnect } from 'venom-react-hooks';
 import { Address } from 'everscale-inpage-provider';
-import { lookupAddress } from 'vid-sdk';
+import { getRecord, lookupAddress } from 'vid-sdk';
 import { lookupNames } from '../../core/utils/reverse';
+import { useAtomValue } from 'jotai';
+import { connectedAccountAtom, venomProviderAtom } from 'core/atoms';
 
 export default function NSSection() {
   const { t } = useTranslate();
@@ -45,11 +47,12 @@ export default function NSSection() {
   const [isLoading, setIsLoadig] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [sent, setSent] = useState(false);
-  const { provider } = useVenomProvider();
-  const { account } = useConnect();
+  const provider = useAtomValue(venomProviderAtom);
+  const connectedAccount = useAtomValue(connectedAccountAtom);
+  //const { account } = useConnect();
 
   const { run, status } = useSendMessage({
-    from: new Address(String(account?.address)),
+    from: new Address(connectedAccount)!,
     to: String(address),
     amount: String(Number(0.01) * 1e9),
   });
@@ -79,41 +82,10 @@ export default function NSSection() {
     //if(MINT_OPEN){
     if (!provider || !provider.isInitialized) return;
 
-    const names = await lookupNames(provider, address);
+    const names = await lookupNames(provider, address, 20);
     if(names && names.length > 0){
       setSearchedNames(names.sort((a, b) => a.length - b.length));
     }
-    // const saltedCode = await saltCode(provider, String(address), ROOT_CONTRACT_ADDRESS);
-    // // Hash it
-    // const codeHash = await provider.getBocHash(String(saltedCode));
-    // if (!codeHash) {
-    //   //setIsLoading(false);
-    //   return;
-    // }
-    // // Fetch all Indexes by hash
-    // const indexesAddresses = await getAddressesFromIndex(codeHash, provider,5);
-    // if (!indexesAddresses || !indexesAddresses.length) {
-    //   //setIsLoading(false);
-    //   return;
-    // }
-    // // Fetch all nfts
-    // let primary = false;
-    // indexesAddresses.map(async (indexAddress) => {
-    //   try {
-    //     if(!primary){
-    //       let _nftJson = await getNftByIndex(provider, indexAddress);
-    //       if(_nftJson.target === address && !primary){
-    //         primary = true ;
-    //         setLoaded(true);
-    //         setSearchedName(_nftJson.name);
-    //         return
-    //       };
-    //     }
-    //   } catch (e: any) {
-    //     setSearchedName('');
-    //     setLoaded(false);
-    //   }
-    // });
 
     setIsLoadig(false);
   };
@@ -122,37 +94,28 @@ export default function NSSection() {
     setIsLoadig(true);
 
     if (!provider) return;
-    //   const certificateAddr = await rootContract.methods.resolve({ path: String(address), answerId: 0 })
-    //       .call({ responsible: true });
-
-    //   const domainContract = new provider.Contract(DomainAbi, certificateAddr.certificate);
-    //   console.log(certificateAddr);
+   
     try {
-      //   // @ts-ignore: Unreachable code error
-      //   const { target } = await domainContract.methods.resolve({ answerId:0 }).call({responsible:true});
-      //     console.log(target)
+      
       const target = await lookupAddress(provider, address);
-      //console.log(target);
       if (target) {
         setLoaded(true);
         setSearchedName(address);
         setAddress(String(target));
-        //console.log(String(address))
       } else {
         setSearchedName('');
         setLoaded(false);
       }
     } catch (e) {
       console.log(e);
-      //       setSearchedName('');
-      //       setLoaded(false);
+      
     }
     setIsLoadig(false);
   };
 
   useEffect(() => {
     if (!loaded) {
-      if (address.includes('.vid')) {
+      if (address.includes('.venom')) {
         getAddress();
       } else if (isValidVenomAddress(address)) {
         getName();
@@ -161,7 +124,7 @@ export default function NSSection() {
         setSearchedNames([]);
       }
     } else {
-      if (!String(address).includes('.vid') && !isValidVenomAddress(address)) {
+      if (!String(address).includes('.venom') && !isValidVenomAddress(address)) {
         setSearchedName('');
         setLoaded(false);
       }
@@ -187,7 +150,7 @@ export default function NSSection() {
           px={2}
           justifyContent={'center'}>
           <Heading py={10} fontWeight="bold" fontSize={['3xl', '4xl', '5xl', '5xl', '6xl']}>
-            {t('ns')}
+            Venom ID Starter Kit
           </Heading>
 
           <SimpleGrid columns={[1, 1, 2]} gap={10}>
@@ -211,14 +174,14 @@ export default function NSSection() {
                   <Flex gap={4} width={'100%'}>
                     <RiCodeSSlashLine size="46px" />
                     <Stack gap={1}>
-                      <Text>{t('apiLinkButton')}</Text>
-                      <Text
+                      <Text textAlign={'left'}>{t('apiLinkButton')}</Text>
+                      <Box
                         display={'flex'}
                         fontSize={'sm'}
                         gap={1}
                         color={colorMode === 'dark' ? 'gray.300' : 'gray.600'}>
                         naming service on venom <RiExternalLinkLine size="18px" />
-                      </Text>
+                      </Box>
                     </Stack>
                   </Flex>
                 </Button>
@@ -239,12 +202,12 @@ export default function NSSection() {
                 use case
               </Text>
               <Text fontSize={['md', 'lg', 'xl', 'xl']} color={'gray'}>
-                Enter your domain name e.g. faucet.vid
+                Enter your domain name e.g. sam.venom
               </Text>
               <InputGroup>
                 <Input
                   height={'58px'}
-                  placeholder="e.g. faucet.vid"
+                  placeholder="e.g. sam.venom"
                   value={address}
                   _focus={{
                     borderColor: 'white',
@@ -348,11 +311,11 @@ export default function NSSection() {
                   backdropBlur={'6px'}
                   backgroundColor={colorMode === 'light' ? 'whiteAlpha.700' : 'blackAlpha.700'}
                   borderBottomColor={colorMode === 'light' ? 'blackAlpha.100' : 'whiteAlpha.100'}>
-                  <Text fontSize={['xl', 'xl', '2xl']} lineHeight={'40px'}>
+                  <Box fontSize={['xl', 'xl', '2xl']} lineHeight={'40px'}>
                     🔥 Awesome. You have transferred 0.01 TEST VENOM to{' '}
                     <strong>{searchedName}</strong> at{' '}
                     <strong>{new Date().toLocaleString()}</strong>
-                  </Text>
+                  </Box>
                   <Button
                     maxW={'100%'}
                     w={'100%'}

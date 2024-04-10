@@ -1,6 +1,7 @@
 import { Address, ProviderRpcClient } from "everscale-inpage-provider";
 import { ROOT_CONTRACT_ADDRESS } from "./constants";
 import nftAbi from "abi/Nft.abi.json";
+import rootAbi from "abi/Root.abi.json";
 import indexAbi from "abi/Index.abi.json";
 
 export interface BaseNftJson {
@@ -51,27 +52,6 @@ export const getNftImage = async (
   return json.preview?.source || "";
 };
 
-export const getNft = async (
-  provider: ProviderRpcClient,
-  nftAddress: Address
-): Promise<BaseNftJson> => {
-  const nftContract = new provider.Contract(nftAbi, nftAddress);
-  ///console.log('getting nft',nftContract)
-
-  // calling getJson function of NFT contract
-  const getJsonAnswer = (await nftContract.methods
-    .getJson({ answerId: 0 } as never)
-    .call()) as { json: string };
-  //console.log(getJsonAnswer);
-  const getInfoAnswer = (await nftContract.methods
-    .getInfo({ answerId: 0 } as never)
-    .call()) as any;
-  const json = JSON.parse(getJsonAnswer.json ?? "{}") as BaseNftJson;
-  json.address = nftAddress.toString();
-  json.network = "venom testnet";
-  json.info = getInfoAnswer;
-  return json;
-};
 
 // Returns array with NFT's json
 export const getCollectionItemsJson = async (
@@ -133,19 +113,6 @@ export const getNftsByIndexes = async (
   return getCollectionItemsJson(provider, nftAddresses);
 };
 
-export const getNftByIndex = async (
-  provider: ProviderRpcClient,
-  indexAddress: Address
-): Promise<BaseNftJson> => {
-  // console.log(indexAddress)
-  const indexContract = new provider.Contract(indexAbi, indexAddress);
-  const indexInfo = (await indexContract.methods
-    .getInfo({ answerId: 0 } as never)
-    .call()) as IndexInfo;
-  const imgInfo = (await getNft(provider, indexInfo.nft)) as BaseNftJson;
-  return imgInfo;
-};
-
 // Method to returning a salted index code (base64)
 export const saltCode = async (
   provider: ProviderRpcClient,
@@ -180,6 +147,34 @@ export const saltCode = async (
   return saltedCode;
 };
 
+export const getNft = async (
+  provider: ProviderRpcClient,
+  nftAddress: Address
+): Promise<BaseNftJson> => {
+  const nftContract = new provider.Contract(nftAbi, nftAddress);
+  const getJsonAnswer = (await nftContract.methods.getJson({ answerId: 0 } as never).call()) as { json: string };
+  const getInfoAnswer = (await nftContract.methods.getInfo({ answerId: 0 } as never).call()) as any;
+  const json = JSON.parse(getJsonAnswer.json ?? "{}") as BaseNftJson;
+  json.address = nftAddress.toString();
+  json.network = "venom testnet";
+  json.info = getInfoAnswer;
+  return json;
+};
+
+
+export const getNftByIndex = async (
+  provider: ProviderRpcClient,
+  indexAddress: Address
+): Promise<BaseNftJson> => {
+  // console.log(indexAddress)
+  const indexContract = new provider.Contract(indexAbi, indexAddress);
+  const indexInfo = (await indexContract.methods
+    .getInfo({ answerId: 0 } as never)
+    .call()) as IndexInfo;
+  const nft = (await getNft(provider, indexInfo.nft)) as BaseNftJson;
+  return nft;
+};
+
 // Method, that return Index'es addresses by single query with fetched code hash
 export const getAddressesFromIndex = async (
   codeHash: string,
@@ -195,27 +190,31 @@ export async function lookupNames(
   address: string,
   limit?: number
 ): Promise<string[]> {
+
   if (!provider) return [];
 
-  const saltedCode = await saltCode(
-    provider,
-    String(address),
-    ROOT_CONTRACT_ADDRESS
-  );
+  const rootContract = new provider.Contract(rootAbi, new Address(ROOT_CONTRACT_ADDRESS));
 
-  const codeHash = await provider.getBocHash(String(saltedCode));
-  if (!codeHash) {
+  // @ts-ignore
+  const { codeHash : _codeHash } = await rootContract.methods.expectedCertificateCodeHash({ target: new Address(address) , sid:1 , answerId:0 }).call();
+  if (!_codeHash) {
     return [];
   }
 
-  const indexesAddresses = await getAddressesFromIndex(codeHash, provider, limit);
-  if (!indexesAddresses || indexesAddresses.length === 0) {
+  const codeHash = BigInt(_codeHash).toString(16).padStart(64, '0')
+
+  const addresses = await provider?.getAccountsByCodeHash({ codeHash, limit });
+  console.log(addresses);
+  if (!addresses.accounts || addresses.accounts.length === 0) {
     return [];
   }
 
-  const nfts = await Promise.all(indexesAddresses.map(async (indexAddress) => {
+  const nfts = await Promise.all(addresses.accounts.map(async (indexAddress) => {
     try {
-      const _nftJson = await getNftByIndex(provider, indexAddress);
+      console.log(indexAddress)
+      const nftContract = new provider.Contract(nftAbi, indexAddress);
+      const getJsonAnswer = (await nftContract.methods.getJson({ answerId: 0 } as never).call()) as { json: string };
+      const _nftJson = JSON.parse(getJsonAnswer.json ?? "{}") as BaseNftJson;
       if (address === _nftJson.target) {
         return String(_nftJson.name);
       } else {

@@ -46,6 +46,7 @@ import {
   signDateAtom,
   signHashAtom,
   signMessageAtom,
+  venomProviderAtom,
 } from '../../core/atoms';
 import {
   ConnectWallet,
@@ -100,6 +101,7 @@ export default function ConnectButton() {
   const [connectedAccount, setConnectedAccount] = useAtom(connectedAccountAtom);
   const [rootContract,setRootContract] = useAtom(rootContractAtom);
   const [signMessage, setSignMessage] = useAtom(signMessageAtom);
+  const [venomProvider,setVenomProvider] = useAtom(venomProviderAtom);
   const { onCopy, hasCopied } = useClipboard(String(address));
   const { sign, status } = useSignMessage({
     publicKey: String(account?.publicKey),
@@ -122,6 +124,7 @@ export default function ConnectButton() {
   async function getPrimary() {
     if (!provider || !provider?.isInitialized || !account?.address) return;
     setIsConnected(true);
+    setVenomProvider(provider);
     setConnectedAccount(account?.address.toString() ?? '');
 
     try {
@@ -156,6 +159,7 @@ export default function ConnectButton() {
           let _nftJson = await getNftByIndex(provider, indexAddress);
           if(_nftJson.target === account.address.toString() && !primary){
             primary = true ;
+            setPrimaryLoaded(true);
             setPrimaryName({name: _nftJson.name, nftAddress: _nftJson.address});
             setSignMessage(`Hey there ${_nftJson.name} ,${SIGN_MESSAGE}`);
             return
@@ -185,7 +189,7 @@ export default function ConnectButton() {
 
   async function getEthPrimary() {
     if (!ethAddress) return;
-    //console.log(ethAddress);
+    console.log(ethAddress);
     try {
       const _name = await web3Name.getDomainName({ address: ethAddress });
       setEthPrimaryName({ name: _name ?? '', nftAddress: '' });
@@ -237,10 +241,13 @@ export default function ConnectButton() {
 
 
   useEffect(() => {
+    console.log('this used')
     async function checkPrimary() {
       try {
         if (!ethPrimaryLoaded || address !== ethAddress) {
           getEthPrimary();
+          console.log('getting eth primary')
+
         }
 
         if (account && isConnected && provider) {
@@ -254,6 +261,7 @@ export default function ConnectButton() {
           if (!primaryLoaded || connectedAccount !== String(account?.address)) {
             network === '' && switchNetwork('venom');
             getPrimary();
+            console.log('getting primary')
           }
         }
       } catch {
@@ -283,14 +291,14 @@ export default function ConnectButton() {
                 </Stack>
               ) : (
                 <Stack gap={1}>
-                  <Text
+                  <Box
                     fontWeight={'semibold'}
                     textAlign={'left'}
                     my={'0 !important'}
                     fontSize="14px">
                     {balance} {notMobile ? (balance !== 'Loading' ? symbol : '') : ''}
-                  </Text>
-                  <Text
+                  </Box>
+                  <Box
                     fontWeight={'semibold'}
                     textAlign={'left'}
                     fontSize="14px"
@@ -308,7 +316,7 @@ export default function ConnectButton() {
                       : ethPrimaryName && ethPrimaryName?.name !== ''
                       ? capFirstLetter(String(ethPrimaryName.name))
                       : truncAddress(String(address))}
-                  </Text>
+                  </Box>
                 </Stack>
               )}
             </Center>
@@ -351,7 +359,7 @@ export default function ConnectButton() {
                     <Flex gap={2} align={'center'}>
                       <VenomFoundation />
                       <Stack gap={1} mx={1}>
-                        <Text
+                        <Box
                           fontWeight={'semibold'}
                           textAlign={'left'}
                           my={'0 !important'}
@@ -360,8 +368,8 @@ export default function ConnectButton() {
                             ? Math.round(Number(account?.balance) / 10e5) / 10e2
                             : 'Loading'}{' '}
                           {notMobile ? (account?.balance !== undefined ? 'VENOM' : '') : ''}
-                        </Text>
-                        <Text
+                        </Box>
+                        <Box
                           fontWeight={'semibold'}
                           textAlign={'left'}
                           fontSize="14px"
@@ -375,7 +383,7 @@ export default function ConnectButton() {
                           {primaryName?.name !== ''
                             ? capFirstLetter(String(primaryName.name))
                             : truncAddress(String(account?.address))}
-                        </Text>
+                        </Box>
                       </Stack>
                     </Flex>
                   </MenuButton>
@@ -390,7 +398,7 @@ export default function ConnectButton() {
                     <Flex p={5} alignItems="center" gap={2}>
                       <VenomFoundation />
                       <Stack gap={0.5} mx={1} flexGrow={1}>
-                        <Text
+                        <Box
                           fontWeight={'semibold'}
                           textAlign={'left'}
                           fontFamily={'Poppins'}
@@ -399,8 +407,8 @@ export default function ConnectButton() {
                           {primaryName?.name !== ''
                             ? capFirstLetter(String(primaryName.name))
                             : truncAddress(String(account?.address))}
-                        </Text>
-                        <Text
+                        </Box>
+                        <Box
                           fontWeight={'semibold'}
                           textAlign={'left'}
                           fontFamily={'Poppins'}
@@ -411,7 +419,7 @@ export default function ConnectButton() {
                             ? Math.round(Number(account?.balance) / 10e5) / 10e2
                             : 'Loading'}{' '}
                           {notMobile ? 'VENOM' : ''}
-                        </Text>
+                        </Box>
                       </Stack>
                       <Tooltip
                         borderRadius={4}

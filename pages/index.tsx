@@ -23,7 +23,7 @@ const Home: NextPage = () => {
 
       </Head>
       <NSSection />
-      <ManageSection />
+      {/* <ManageSection /> */}
     </>
   );
 };

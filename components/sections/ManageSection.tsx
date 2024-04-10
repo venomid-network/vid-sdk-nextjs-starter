@@ -295,15 +295,11 @@ function ManageSection() {
                       shape="circle"
                     />
                   </Box>
-                  <HStack><Text flexGrow={1} fontWeight={'bold'} fontSize={['xl', 'xl', '2xl']}>
+                  <HStack><Box flexGrow={1} fontWeight={'bold'} fontSize={['xl', 'xl', '2xl']}>
                   {String(nft.name).toLowerCase()}
-                </Text></HStack>
+                </Box></HStack>
                 </Flex>
                   
-
-                
-
-                
                   <Flex gap={2} align={'center'}>
                 
                     <Link href={nft.external_url} target="_blank">

@@ -5,8 +5,8 @@ import { EverscaleStandaloneClient } from 'everscale-standalone-client';
 const standaloneFallback = () =>
   EverscaleStandaloneClient.create({
     connection: {
-      id: 1000,
-      group: 'venom_testnet',
+      id: 1,
+      group: 'venom_mainnet',
       type: 'jrpc',
       data: {
         endpoint: 'https://jrpc.venom.foundation/rpc',
@@ -17,7 +17,7 @@ const standaloneFallback = () =>
 export const initVenomConnect = async () => {
   return new VenomConnect({
     theme: 'dark',
-    checkNetworkId: 1000,
+    checkNetworkId: 1,
     providersOptions: {
       venomwallet: {
         walletWaysToConnect: [
@@ -29,16 +29,16 @@ export const initVenomConnect = async () => {
                 VenomConnect.getPromise('venomwallet', 'extension') || (() => Promise.reject()),
               forceUseFallback: true,
             },
-            packageOptionsStandalone: {
-              fallback: standaloneFallback,
-              forceUseFallback: true,
-            },
+            // packageOptionsStandalone: {
+            //   fallback: standaloneFallback,
+            //   forceUseFallback: true,
+            // },
 
             // Setup
             id: 'extension',
             type: 'extension',
 
-            // name: "Custom Name",
+             //name: "Custom Name",
             // logo: "",
 
             // High-level setup
@@ -54,60 +54,33 @@ export const initVenomConnect = async () => {
           'android',
         ],
       },
-      oneartwallet: {
-        walletWaysToConnect: [
-          {
-            // NPM package
-            package: ProviderRpcClient,
-            packageOptions: {
-              fallback:
-                VenomConnect.getPromise('oneartwallet', 'extension') || (() => Promise.reject()),
-              forceUseFallback: true,
-            },
-            packageOptionsStandalone: {
-              fallback: standaloneFallback,
-              forceUseFallback: true,
-            },
+      // oneartwallet: {
+      //   walletWaysToConnect: [
+      //     {
+      //       // NPM package
+      //       package: ProviderRpcClient,
+      //       packageOptions: {
+      //         fallback:
+      //           VenomConnect.getPromise('oneartwallet', 'extension') || (() => Promise.reject()),
+      //         forceUseFallback: true,
+      //       },
+      //       // packageOptionsStandalone: {
+      //       //   fallback: standaloneFallback,
+      //       //   forceUseFallback: true,
+      //       // },
 
-            // Setup
-            id: 'extension',
-            type: 'extension',
-          },
-        ],
-        defaultWalletWaysToConnect: [
-          // List of enabled options
-          'mobile',
-          'ios',
-          'android',
-        ],
-      },
-      oxychatwallet: {
-        walletWaysToConnect: [
-          {
-            // NPM package
-            package: ProviderRpcClient,
-            packageOptions: {
-              fallback:
-                VenomConnect.getPromise('oxychatwallet', 'extension') || (() => Promise.reject()),
-              forceUseFallback: true,
-            },
-            packageOptionsStandalone: {
-              fallback: standaloneFallback,
-              forceUseFallback: true,
-            },
-
-            // Setup
-            id: 'extension',
-            type: 'extension',
-          },
-        ],
-        defaultWalletWaysToConnect: [
-          // List of enabled options
-          'mobile',
-          'ios',
-          'android',
-        ],
-      },
+      //       // Setup
+      //       id: 'extension',
+      //       type: 'extension',
+      //     },
+      //   ],
+      //   defaultWalletWaysToConnect: [
+      //     // List of enabled options
+      //     'mobile',
+      //     'ios',
+      //     'android',
+      //   ],
+      // }
     },
   });
 };
