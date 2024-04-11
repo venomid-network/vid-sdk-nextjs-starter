@@ -29,10 +29,10 @@ export const initVenomConnect = async () => {
                 VenomConnect.getPromise('venomwallet', 'extension') || (() => Promise.reject()),
               forceUseFallback: true,
             },
-            // packageOptionsStandalone: {
-            //   fallback: standaloneFallback,
-            //   forceUseFallback: true,
-            // },
+            packageOptionsStandalone: {
+              fallback: standaloneFallback,
+              forceUseFallback: true,
+            },
 
             // Setup
             id: 'extension',
